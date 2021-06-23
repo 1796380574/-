@@ -1,0 +1,107 @@
+#include<iostream>
+#include<cmath>
+#include <iomanip>
+#include<cstring>
+#include<string>
+const int MAX=1000;
+const int INF=999999;
+
+using namespace std;
+int n,m,s,G[MAX][MAX];
+bool vis[MAX]={false};
+int d[MAX];
+
+void Dijkstra(int s){
+	fill(d,d+MAX,INF);
+	d[s]=0;
+	for(int i=0;i<n;i++){
+		int u=-1,MIN=INF;
+		for(int j=0;j<n;j++){
+			if(vis[j]==false && d[j<MIN]){
+				u=j;
+				MIN=d[j];
+			}
+		}
+		if(u==-1) return;//孤立点
+		vis[u]=true;
+		for(int v=0;v<n;v++) {
+			if(vis[v]==false && G[u][v]!=INF && d[u]+G[u][v]<d[v]){
+				d[v]=d[u]+G[u][v];
+			}
+		}
+	}
+} 
+
+int main(){
+	int u,v,w;
+	cin >> n>>m>>s;
+	fill(G[0],G[0]+MAX*MAX,INF);
+	for(int i=0;i<m;i++){
+		cin >> u>>v>>w;
+		G[u][v]=w;
+	}
+	Dijkstra(s);
+	for(int i=0;i<n;i++){
+		cout<<d[i]<<" ";
+	}
+	
+
+	return 0;
+}
+
+#include<iostream>
+#include<cmath>
+#include <iomanip>
+#include<cstring>
+#include<string>
+#define MAX 99999
+
+using namespace std;
+int map[101][101];
+int n,m;
+int i,j,k,t;
+int num[4][4]={
+	{0,2,6,4},
+	{MAX,0,3,MAX},
+	{7,MAX,0,1},
+	{5,MAX,12,0}
+	};
+
+int main(){
+	memset(map,MAX,sizeof(map));
+//	cout<<"输入有多少个顶点："<<endl;
+//	cin>> n;
+    n=4;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			map[i][j]=num[i][j];
+		}
+	}
+//	for(i=0;i<n;i++){
+//		for(j=0;j<n;j++){
+//			cout<<map[i][j]<<" ";
+//		}
+//		cout<<endl;
+//	}
+	
+
+    for(k=0; k<n; k++)//求最短路
+        for(i=0; i<n; i++)
+            for( j=0; j<n; j++)
+            {
+                if(map[i][k]+map[k][j]<map[i][j])
+                	map[i][j]=map[i][k]+map[k][j];
+            }
+    
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			cout<<i+1<<"->"<<j+1<<" min_path=";
+			cout<<map[i][j]<<endl;
+		}
+		cout<<endl;
+	}
+	
+
+	return 0;
+}
+
